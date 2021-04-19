@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calendar.html</title>
+    <style>
+        td{
+            text-align:center;
+        }
+        #td1{
+            background-color:violet;
+        }
+    </style>
+</head>
+<body>
+    </talbe>
+    <script>
+        var today=new Date(2021, 3,1);
+        today=(today.getDay());
+        console.log(today);
+        var lastDay = new Date(2021, 4 ,0);
+        lastDay=(lastDay.getDate());
+        console.log(lastDay);
+    // for(var j=1;j<=12;j++){
+    //     tb1+='<tr><td id="td1" colspan="7">'+j+'월'+'</td></tr>'
+        var days=['Sun','Mon','Tue','Wed','Thr','Fri','Sat'];
+        var tb1 = '<table border="1"><tr>';
+        for(day of days){
+            tb1+='<th>'+day+'</th>'
+            }
+        tb1+='</tr><tr>'
+        
+        var cnt=1;
+        for(var i=0; i<today; i++){
+            tb1+='<td></td>';
+            cnt++;//5
+        }
+        for(var i=1;i<=lastDay; i++){
+            tb1 +=' <td>' + i + '</td>';
+            if(cnt % 7==0){
+                tb1 +=' </tr><tr>'
+            }          
+            cnt++;
+        }
+    
+        tb1 +='</tr>'
+        tb1+='</table>';
+        document.write(tb1);
+    
+        
+
+    </script>
+</body>
+</html>
