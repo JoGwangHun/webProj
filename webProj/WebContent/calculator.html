@@ -92,8 +92,10 @@
                     }else if(oper =='%'){
                         dp.innerHTML=(firstVal % lastVal)
                     }
+                    
                     firstVal=dp.innerHTML;
                     lastVal=0;
+                    oper=null;
                     return; //function 에서 return을 만나면 종료.
                  }
 
