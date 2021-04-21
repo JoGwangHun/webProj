@@ -56,13 +56,13 @@ function createTitle(){
 }
 
 
-
+//회원리스트에 회원정보 보여주는 func
 function createData(){
-for(var p of persons){
-var trTag=document.createElement('tr');
-trTag.setAttribute('id',p.id)
-trTag.onmouseover=mousOverFnc;
-trTag.onmouseout=mousOutFnc;     
+    for(var p of persons){
+        var trTag=document.createElement('tr');
+        trTag.setAttribute('id',p.id)
+        trTag.onmouseover=mousOverFnc;
+        trTag.onmouseout=mousOutFnc;     
 
 for (var field in p){      
    if(field == 'id'){
@@ -111,7 +111,8 @@ function deleteRow(){
 }
 function modifyFunc(){
     var idVal= this.innerHTML;
-    var nameVal=this.previousSibling.innerHTML;
+    var nameVal=this.previousSibling.firstChild.innerHTML;//childNodes[0]
+    console.log(nameVal);
     var scoreVal=this.nextSibling.innerHTML;
     var genVal= this.parentNode.childNodes[3].innerHTML;
         
@@ -139,8 +140,8 @@ function saveBtnFnc(){
               trTag.onmouseout=mousOutFnc;
 
             //name
-           var tdTag=document.createElement('td');
-           tdTag.innerHTML=iName.value;
+           var tdTag=document.createElement('td');//iName.value;
+           tdTag.innerHTML='<a href="dom.jsp?name='+iName.value+'&id='+iId.value+'&score='+iScore.value+'&gender='+iGender.value+'">'+iName.value+'</a>';
            trTag.appendChild(tdTag);
            //id
            var tdTag=document.createElement('td');
@@ -167,15 +168,21 @@ function saveBtnFnc(){
         
 }
 
+//수정버튼 클릭했을 때 변경
 function modifyBtnFnc(){
-    var id = document.getElementById('id').value;
+    var id = document.getElementById('id').value;//id 로 tr찾아오
+    //사용자가 변경한 값을 반영
+    var name =document.getElementById('name').value;
+    var score= document.getElementById('score').value;
+    var gender=document.querySelector('input[name="gender"]:checked').value;
+
     var targetTr =document.getElementById(id);
     console.log(targetTr);
-    targetTr.children[0].innerHTML
-           =document.getElementById('name').value;
-    targetTr.children[2].innerHTML
-           =document.getElementById('score').value;
-    targetTr.children[3].innerHTML
-           =document.querySelector('input[name="gender"]:checked').value;
+    targetTr.children[0].innerHTML= '<a href="dom.jsp?name='+name+'&id='+id+'&score='+score+'&gender='+gender+'">'+name+'</a>';
+    targetTr.children[2].innerHTML=score;        
+    targetTr.children[3].innerHTML=gender;
+          
 }
-    
+// =document.getElementById('name').value;
+// =document.getElementById('score').value; 
+// =document.querySelector('input[name="gender"]:checked').value;

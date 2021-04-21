@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>json.html</title>
+</head>
+<body>
+    <script>
+        var myObj={
+            name: "John",
+            age:31,
+            city:"New York"
+        };
+         // JSON JavaScript object Notation.
+        var josnObj = '{"name":"Jongh","age":"31","city":"New York"}';
+       //JSON =>object
+       var data =JSON.parse(josnObj);
+
+
+       var json= JSON.stringify(data);
+       console.log(json);
+
+        // var strObj = "name:John,age:31,city:New York";
+        // var pos= strObj.indexOf('name');
+        // var name=strObj.substring(5,9);
+
+        var mockData=   '[{"id":1,"first_name":"Abbe","last_name":"Kobpal","email":"akobpal0@about.me","gender":"Male","ip_address":"182.52.240.121"},{"id":19,"first_name":"Roxie","last_name":"Korpal","email":"rkorpali@theatlantic.com","gender":"Agender","ip_address":"246.37.33.106"},{"id":20,"first_name":"Rhianon","last_name":"Vernazza","email":"rvernazzaj@soundcloud.com","gender":"Genderqueer","ip_address":"163.122.230.221"}]';//서버에서 받아온 사원정보
+        var mockObj=JSON.parse(mockData);
+        
+        var table =document.createElement('table');
+        table.setAttribute('border','1');
+        var cap = document.createElement('caption');
+        cap.innerHTML='사원리스트';
+        for(var i=0;i<mockObj.length;i++){
+            var tr=document.createElement('tr');
+            for( field in mockObj[i]){
+                var td = document.createElement('td');
+                var text= document.createTextNode(mockObj[i][field]);
+                td.appendChild(text);
+                tr.appendChild(td); 
+                
+            }
+            table.appendChild(tr);
+        }
+        document.body.appendChild(table);
+
+        console.log(mockObj);
+    </script>
+</body>
+</html>
