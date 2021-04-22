@@ -5,18 +5,77 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ajax.html</title>
+    <style>
+   #frm{ 
+       margin:50px;
+      font-size: 20px;
+      font-weight:bold;
+    }
+	#frm>input{
+	margin:auto;
+	}
+    
+    
+    </style>
+    <script>
+        
+    	document.addEventListener('DOMContentLoaded',function(){
+            var frm=document.getElementById('frm');
+            frm.addEventListener('submit',function(e){
+                e.preventDefault();
+                console.log(e);
+                var fn= document.getElementById('first_name').value;
+                var ln= document.getElementById('last_name').value;
+                var em= document.getElementById('email').value;
+                var sl= document.getElementById('salary').value;
+                var hd= document.getElementById('hire_date').value;
+                var ji= document.getElementById('job_id').value;
+                var data='first_name='+fn+'&last_name='+ln+'&email='+em+'&salary='+sl+'&hire_date='+hd+'&job_id='+ji;
+                var xhtp = new XMLHttpRequest();
+                xhtp.open('post','empList.do');
+                xhtp.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+                xhtp.send(data);
+
+                xhtp.onreadystatechange = function(){
+                    if(xhtp.readyState == 4 && xhtp.status == 200){
+                        console.log(xhtp.responseText);
+                        var obj=JSON.parse(xhtp.responseText);
+                        console.log(obj.employee_id, obj.last_name, obj.hire_date, obj.job_id);
+                    }
+
+                }
+            })
+
+        });
+    </script>
 </head>
 <body>
-    <form action="empList.do" method="POST">
-        LastName:   <input type="text" name="last_name" id=""><br>
-        Email:      <input type="text" name="email" id=""><br>
-        HireDate:   <input type="text" name="hire_date" id=""><br>
-        JobId:      <input type="text" name="job_id" id=""><br>
+	<div id="show1">
+    <form id="frm" action="empList.do" method="POST">
+  		FirstName:   <input type="text" name="first_name" id="first_name"><br>
+        LastName:   <input type="text" name="last_name" id="last_name"><br>
+        Email:      <input type="text" name="email" id="email"><br>
+        Salary:      <input type="text" name="salary" id="salary"><br>
+        HireDate:   <input type="date" name="hire_date" id="hire_date"><br>
+        JobId:      <input type="text" name="job_id" id="job_id"><br>  
         <input type="submit" value="저장">
         <input type="reset" value="취소">
     </form>
+    </div>  
     <div id="show"></div>
     <script>
+    	var table;
+        var list={
+            employee_id:'사원번호',
+            first_Name:'성',
+            Last_Name:'이름',
+            Email:'이메일',
+            salary:'급여',
+            hire_date:'입사일자',
+            job_id:'직무',
+            delete:'삭제'
+        };
+
         var xhtp = new XMLHttpRequest();
         //readyState: 1= >connection. 2=>request received.
        // 3= prosessing request 4=> request finished response reay
@@ -31,12 +90,22 @@
                 var table=document.createElement('table');
                 table.setAttribute('border','1');
                 
-                
+                var tr=document.createElement('tr');
+
+
+                for(var field in list){
+                 var td=document.createElement('th');
+                 var text= document.createTextNode([field]);
+                 
+                 td.style.backgroundColor="gray";
+                 td.appendChild(text);
+                 tr.appendChild(td);
+                }
+                table.appendChild(tr);
+                //  }
                 //배열의 개수만큼 tr생성
                 for(var data of obj){
-                
                 var tr=document.createElement('tr');
-                
                 //field 수만큼 반복해서 td생성
                 for(var field in data){
                  var td=document.createElement('td');
@@ -44,17 +113,25 @@
                  
                  td.appendChild(text);
                  tr.appendChild(td);
-                       
                 }
-              
+                var btn=document.createElement('button');
+                btn.innerHTML='삭제';
+                btn.onclick=deleteRow;
 
-               table.appendChild(tr);
+                var tdTag=document.createElement('td');
+                tdTag.appendChild(btn);
+                tr.appendChild(tdTag);
+                table.appendChild(tr);
                 }
                document.getElementById('show').appendChild(table);
             }
         }
         xhtp.open("get","empList.do?dept=50");
         xhtp.send();
+
+        function deleteRow(){
+           
+        }
     </script>
 </body>
 </html>
