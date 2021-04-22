@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>exam03</title>
+</head>
+<script>
+    document.addEventListener('DOMContentLoaded',function(){
+
+    });
+</script>
+<body>
+    <div id="tb">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <script>
+        var xhtp = new XMLHttpRequest();
+        xhtp.open('get','employees.xml');
+        xhtp.send();
+
+
+    
+        xhtp.onreadystatechange=function(){
+
+            var emp = document.getElementsByTagName('emp_id');
+            var fn = document.getElementsByTagName('first_name');
+            var tell=document.getElementsByTagName('phone_number');
+            if(xhtp.readyState ==4 && xhtp.status == 200){
+                console.log(xhtp.responseXML);
+                var xhrpx=xhtp.responseXML;
+                var records=xhrpx.getElementsByTagName('record');
+
+            
+
+        }
+    }
+    </script>
+</body>
+</html>

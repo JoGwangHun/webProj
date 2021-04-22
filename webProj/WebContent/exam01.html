@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>exam01</title>
+</head>
+<body>
+    <table id="tb"></table>
+    <div>
+        <div>이름 :<input type="text" name="name" id="name" value=" "></div>
+        <div>나이 :<input type="text" name="age" id="age" value=" "></div>
+        <div>전화 번호 :<input type="text" name="tell" id="tell" value=" "></div>
+    </div>
+    <div>
+        <button id="save">저장</button>
+    </div>
+</body>
+<script>
+    var save =document.getElementById('save');
+    save.addEventListener('click',saveFnc);
+
+
+    function saveFnc(){
+        var iName= document.getElementById('name');
+        var iAge=document.getElementById('age');
+        var iTell=document.getElementById('tell');
+        console.log(iName.value,iAge.value,iTell.value);
+    }
+</script>
+</html>
