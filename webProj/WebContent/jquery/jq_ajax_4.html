@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jq_ajax_4</title>
+   	<style>
+    	#sp{
+    	background-color:yellow;
+    		display:inline-block;
+    		width:50px;
+    		height:30px;	
+    		text-align:center;
+    	 }
+    	.inputa{
+    		margin-left:20px;
+    	}
+    	.inputb{
+    		margin-top:20px;
+    		margin-left:200px;
+    	}
+    </style>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+        	//회원 리스트 보여주기
+            $.ajax({
+            	url: 'memberServlet.do',
+            	type:'get',//post
+            	//data: 'p1=hello&p2=nice',
+            	dataType:'json',
+            	success:showList,
+            		
+   
+            		
+            	error:function(reject){
+            		window.alert(reject.statusText);
+            		console.error(`에러코드:${reject.status},에러메세지: ${reject.statusText}`);
+            	}
+            	
+            });
+            
+        	$('#frm').on('submit',function(e){
+        		e.preventDefault(); //submit 기능 취소 서블릿페이지 이동(x)
+        		$.ajax({
+        			url: $('#frm').attr('action'),// 'memberServlet.do'
+        			data: 'm_id=' + +$('#m_id').val()+//key=val&key2=val2&...
+        					'&m_name='+$('#m_name').val()+
+        					'&m_age='+$('#m_age').val(),
+        			type:'post',
+        			dataType:'json',
+        			success:createRow,
+        			error:function(err){
+        				console.error(err);
+        			}
+        		});
+        	});
+			//한건 입력작업 ajax
+        })
+        
+        function showList(resolve){
+        	console.log(resolve);
+    		let title={};
+    		title.id='아이디';
+    		title.name='이름';
+    		title.age='나이';
+    		title.del='삭제';
+    		//아이디 이름 나이
+    		//1 hong 20
+    	
+    		let $table = $('<table id="tbl"/>').attr('border','1');
+    	
+    		let $tr=$('<tr />').append(
+            $('<th />').html(title.id),
+            $('<th />').html(title.name),
+            $('<th />').html(title.age),         
+            $('<th />').html(title.del)
+    		);
+    		
+    		$table.append($tr);
+    
+    		for(let i=0;i<resolve.length;i++){
+    			let btn=$('<button />').html('삭제');
+    			btn.click(deleteRow)
+    				let	$tr=$('<tr />').append(
+                        $('<td />').html(resolve[i].id),
+                        $('<td />').html(resolve[i].name),
+                        $('<td />').html(resolve[i].age),
+                        $('<td />').append(btn)
+                       
+    		);
+    				
+    	
+    		
+    			$table.append($tr);
+    		}
+
+ 
+    		$('#show').append($table);
+        }
+	
+        
+        function createRow(data){
+			console.log(data);
+			//신규 입력된 데이터를 화면에 추가로 보여주기
+			let btn=$('<button />').html('삭제');
+			btn.click(deleteRow)
+				let	$tr=$('<tr />').append(
+                    $('<td />').html(data.id),
+                    $('<td />').html(data.name),
+                    $('<td />').html(data.age),
+                    $('<td />').append(btn)
+                   
+		);
+				
+			$('#tb1').append($tr);
+		}	
+        
+        
+        function deleteRow(){
+        	console.log(this); //this-> button
+        	//db에서삭제
+        	let id=	$(this).parent().parent().children().eq(0).html();
+        	let delTr=$(this).parent().parent();
+        	$.ajax({
+        		url:'../MemberDelServlet',
+        		data: 'id='+id ,
+        		success:function(){
+        			//화면삭제
+        			console.log('삭제후 처리.')
+        			console.log($(this).parent().parent())
+        			delTr.remove();
+        		},
+        		error:function(err){
+        			console.log(err);
+        		}
+        	});
+        	
+        }
+    </script>
+</head>
+<body>  
+	<form id="frm" action="memberServlet.do" method="post">
+		<span id="sp">ID</span>:<input class="inputa" type="number" name="m_id" id="m_id" value="1"/><br>
+		<span id="sp">이름</span>:<input class="inputa" type="text" name="m_name" id="m_name" value="hong"/><br>
+		<span id="sp">나이</span>:<input class="inputa" type="number" name="m_age" id="m_age" value="20"/><br>
+		<input  class="inputb"type="submit" value="저장">
+	</form>
+	<div style="height:50px;"></div>
+    <div id='show'></div>
+</body>
+</html>
